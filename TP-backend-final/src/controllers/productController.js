@@ -1,7 +1,7 @@
 const productService = require('../services/productService.js');
 
 const productController = {
-  // POST /api/products
+  
   create: async (req, res) => {
     try {
       const newProduct = await productService.createProduct(req.body);
@@ -11,7 +11,7 @@ const productController = {
     }
   },
 
-  // GET /api/products
+
   findAll: async (req, res) => {
     try {
       const products = await productService.getAllProducts();
@@ -21,7 +21,7 @@ const productController = {
     }
   },
 
-  // GET /api/products/:id
+
   findById: async (req, res) => {
     try {
       const { id } = req.params;
@@ -33,7 +33,7 @@ const productController = {
     }
   },
 
-  // PUT /api/products/:id
+ 
   update: async (req, res) => {
     try {
       const { id } = req.params;
@@ -45,7 +45,7 @@ const productController = {
     }
   },
 
-  // DELETE /api/products/:id
+ 
   delete: async (req, res) => {
     try {
       const { id } = req.params;

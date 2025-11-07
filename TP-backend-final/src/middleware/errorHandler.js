@@ -1,8 +1,6 @@
-// src/middleware/errorHandler.js
-
 const { AppError } = require('../utils/errorTypes');
 
-// Error logging middleware
+
 const errorLogger = (err, req, res, next) => {
     console.error('\nError Stack:', err.stack);
     console.error('Error Message:', err.message);
@@ -10,9 +8,9 @@ const errorLogger = (err, req, res, next) => {
     next(err);
 };
 
-// Error handling middleware
+
 const errorHandler = (err, req, res, next) => {
-    // If the error is a mongoose validation error
+    
     if (err.name === 'ValidationError') {
         return res.status(400).json({
             status: 'error',
@@ -25,7 +23,7 @@ const errorHandler = (err, req, res, next) => {
         });
     }
 
-    // If the error is a mongoose cast error (invalid ID)
+    
     if (err.name === 'CastError') {
         return res.status(400).json({
             status: 'error',
@@ -35,7 +33,7 @@ const errorHandler = (err, req, res, next) => {
         });
     }
 
-    // If it's our custom AppError
+  
     if (err instanceof AppError) {
         return res.status(err.status).json({
             status: 'error',
@@ -44,7 +42,7 @@ const errorHandler = (err, req, res, next) => {
         });
     }
 
-    // If it's a JWT error
+   
     if (err.name === 'JsonWebTokenError') {
         return res.status(401).json({
             status: 'error',
@@ -53,7 +51,7 @@ const errorHandler = (err, req, res, next) => {
         });
     }
 
-    // If it's a JWT expiration error
+   
     if (err.name === 'TokenExpiredError') {
         return res.status(401).json({
             status: 'error',
@@ -62,7 +60,7 @@ const errorHandler = (err, req, res, next) => {
         });
     }
 
-    // Default error (500 Internal Server Error)
+  
     return res.status(500).json({
         status: 'error',
         type: 'InternalServerError',
@@ -70,7 +68,7 @@ const errorHandler = (err, req, res, next) => {
     });
 };
 
-// 404 handler for undefined routes
+
 const notFoundHandler = (req, res) => {
     res.status(404).json({
         status: 'error',

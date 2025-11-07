@@ -1,4 +1,3 @@
-// src/models/productModel.js
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
@@ -22,8 +21,8 @@ const productSchema = new mongoose.Schema({
     min: 0,
   },
   categoria: {
-    type: mongoose.Schema.Types.ObjectId, // Tipo para referencia
-    ref: 'Category', // Nombre del modelo al que hace referencia
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Category', 
     required: true,
   }
 }, { timestamps: true });

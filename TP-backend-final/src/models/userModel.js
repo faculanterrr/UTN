@@ -1,39 +1,41 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs'); // Asegúrate de tener instalado bcryptjs
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   email: {
     type: String,
     required: true,
     unique: true,
     trim: true,
+    lowercase: true,
   },
   password: {
     type: String,
     required: true,
-  },
-  // CAMBIO: Usamos 'name' para coincidir con el frontend y el servicio
-  name: { 
-    type: String,
-    required: true,
-    trim: true,
   }
 }, { timestamps: true });
 
-// --- HOOK (Middleware) de Mongoose para hashear la contraseña ---
-// Se ejecuta antes de guardar (save) el documento si la contraseña fue modificada
+// Hash password before save
 userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) {
-    return next();
+  if (!this.isModified('password')) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
   }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 
-// --- Método para comparar la contraseña durante el Login ---
-userSchema.methods.comparePassword = async function(candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+// Compare candidate password with stored hash
+userSchema.methods.comparePassword = function(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;
