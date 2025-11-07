@@ -1,12 +1,11 @@
-# RESTful API with CRUD and Service Layer
+💻 API RESTful con CRUD y Capa de Servicio
+📝 Descripción
+Una robusta API RESTful que implementa operaciones CRUD (Crear, Leer, Actualizar, Eliminar) utilizando MongoDB, Express y Node.js, y siguiendo una arquitectura de capa de servicio. Esta API proporciona endpoints para la gestión de productos y categorías con autenticación de usuarios.
 
-## Description
-A robust RESTful API implementing CRUD operations with MongoDB, Express, and Node.js, following service layer architecture. This API provides endpoints for managing products and categories with authentication.
+🏛️ Esquema de la Base de Datos
+Productos
+JSON
 
-## Database Schema
-
-### Products
-```json
 {
   "nombre": "String",
   "descripcion": "String",
@@ -14,95 +13,104 @@ A robust RESTful API implementing CRUD operations with MongoDB, Express, and Nod
   "stock": "Number",
   "categoria": "ObjectId (ref: Category)"
 }
-```
+Categorías
+JSON
 
-### Categories
-```json
 {
   "nombre": "String",
   "descripcion": "String"
 }
-```
+Usuarios
+JSON
 
-### Users
-```json
 {
   "name": "String",
   "email": "String",
   "password": "String (hashed)"
 }
-```
+🛠️ Tecnologías Utilizadas
+Node.js
 
-## Technologies
-- Node.js
-- Express
-- MongoDB & Mongoose
-- JWT for authentication
-- bcrypt for password hashing
-- dotenv for environment variables
-- CORS enabled
+Express
 
-## Installation
+MongoDB y Mongoose
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
+JWT (JSON Web Tokens) para autenticación
+
+bcrypt para el hashing de contraseñas
+
+dotenv para variables de entorno
+
+CORS habilitado
+
+🚀 Instalación
+Sigue estos pasos para levantar el proyecto localmente:
+
+Clonar el repositorio:
+
+Bash
+
+git clone <url-del-repositorio>
 cd TP-backend-final
-```
+Instalar dependencias:
 
-2. Install dependencies:
-```bash
+Bash
+
 npm install
-```
+Configurar el archivo .env: Crea un archivo llamado .env en la raíz del proyecto y añade las variables requeridas (consulta el archivo .env.example).
 
-3. Create .env file with required variables (see .env.example)
+Ejecutar el servidor:
 
-4. Run the server:
-```bash
+Bash
+
 npm start
-```
+🗺️ Endpoints de la API
+Autenticación (Rutas Públicas)
+POST /api/v1/auth/register - Registra un nuevo usuario.
 
-## API Endpoints
+POST /api/v1/auth/login - Inicia sesión y devuelve un token.
 
-### Authentication
-- POST /api/v1/auth/register - Register new user
-- POST /api/v1/auth/login - Login user
+Productos
+GET /api/v1/products - Obtiene todos los productos.
 
-### Products
-- GET /api/v1/products - Get all products
-- GET /api/v1/products/:id - Get product by ID
-- POST /api/v1/products - Create new product (requires authentication)
-- PUT /api/v1/products/:id - Update product (requires authentication)
-- DELETE /api/v1/products/:id - Delete product (requires authentication)
+GET /api/v1/products/:id - Obtiene un producto por su ID.
 
-### Categories
-- GET /api/v1/categories - Get all categories
-- GET /api/v1/categories/:id - Get category by ID
-- POST /api/v1/categories - Create new category (requires authentication)
-- PUT /api/v1/categories/:id - Update category (requires authentication)
-- DELETE /api/v1/categories/:id - Delete category (requires authentication)
+POST /api/v1/products - Crea un nuevo producto (requiere autenticación).
 
-## Example Requests
+PUT /api/v1/products/:id - Actualiza un producto (requiere autenticación).
 
-### Register User
-```json
+DELETE /api/v1/products/:id - Elimina un producto (requiere autenticación).
+
+Categorías
+GET /api/v1/categories - Obtiene todas las categorías.
+
+GET /api/v1/categories/:id - Obtiene una categoría por su ID.
+
+POST /api/v1/categories - Crea una nueva categoría (requiere autenticación).
+
+PUT /api/v1/categories/:id - Actualiza una categoría (requiere autenticación).
+
+DELETE /api/v1/categories/:id - Elimina una categoría (requiere autenticación).
+
+💡 Ejemplos de Solicitudes
+Registrar Usuario
+JSON
+
 {
   "name": "John Doe",
   "email": "john@example.com",
   "password": "securepassword123"
 }
-```
+Iniciar Sesión
+JSON
 
-### Login
-```json
 {
   "email": "john@example.com",
   "password": "securepassword123"
 }
-```
+Crear Producto
+JSON
 
-### Create Product
-```json
 {
   "nombre": "Laptop Gaming",
   "descripcion": "Laptop gaming de alta gama",
@@ -110,37 +118,37 @@ npm start
   "stock": 50,
   "categoria": "65481d7b9f1e8d3a2c0e4b5a"
 }
-```
+Crear Categoría
+JSON
 
-### Create Category
-```json
 {
   "nombre": "Electronics",
   "descripcion": "Electronic devices and accessories"
 }
-```
+🔑 Autenticación
+La API utiliza JWT para la autenticación. Para acceder a las rutas protegidas:
 
-## Authentication
+Primero, inicia sesión para obtener el token JWT.
 
-The API uses JWT for authentication. To access protected routes:
-1. First login to get the JWT token
-2. Include the token in the Authorization header:
-```
-Authorization: Bearer <your-token>
-```
+Incluye el token en el encabezado Authorization con el prefijo Bearer:
 
-## Error Handling
+Authorization: Bearer <tu-token>
+🛑 Manejo de Errores
+La API incluye un manejo de errores completo con los siguientes códigos de estado:
 
-The API includes comprehensive error handling:
-- 400: Bad Request - Invalid input
-- 401: Unauthorized - Invalid/missing token
-- 403: Forbidden - Valid token but insufficient permissions
-- 404: Not Found - Resource not found
-- 500: Internal Server Error - Server-side issues
+400: Solicitud Incorrecta (Bad Request) - Entrada inválida.
 
-## Development
+401: No Autorizado (Unauthorized) - Token inválido o faltante.
 
-To run in development mode with hot reload:
-```bash
+403: Prohibido (Forbidden) - Token válido, pero permisos insuficientes.
+
+404: No Encontrado (Not Found) - Recurso no encontrado.
+
+500: Error Interno del Servidor (Internal Server Error) - Problemas del lado del servidor.
+
+⚙️ Desarrollo
+Para ejecutar la aplicación en modo desarrollo con recarga automática (hot reload):
+
+Bash
+
 npm run dev
-```
