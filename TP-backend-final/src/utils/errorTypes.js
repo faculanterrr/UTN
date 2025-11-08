@@ -1,5 +1,3 @@
-// src/utils/errorTypes.js
-
 class AppError extends Error {
     constructor(message, status) {
         super(message);
