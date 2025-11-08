@@ -10,24 +10,24 @@ export default function ProductPage({ token, handleLogout }) {
     const [products, setProducts] = useState([]);
     const [productsMessage, setProductsMessage] = useState('Cargando productos...');
     
-    // Estados para Crear Producto
+    
     const [newProductName, setNewProductName] = useState('');
     const [newProductPrice, setNewProductPrice] = useState('');
-    const [newProductCategory, setNewProductCategory] = useState(''); // ID de Categoría
-    const [categories, setCategories] = useState([]); // Para el Dropdown
+    const [newProductCategory, setNewProductCategory] = useState(''); 
+    const [categories, setCategories] = useState([]); 
     const [creationMessage, setCreationMessage] = useState('');
 
-    // 1. Efecto para verificar el token (Ruta Protegida)
+  
     useEffect(() => {
         if (!token) {
-            navigate('/'); // Redirigir si no hay token
+            navigate('/');
         }
-        fetchProducts(); // Cargar productos al montar
-        fetchCategories(); // Cargar categorías para el formulario
+        fetchProducts(); 
+        fetchCategories(); 
     }, [token, navigate]);
 
 
-    // 2. Cargar Categorías para el formulario (no es la prueba principal)
+    
     const fetchCategories = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/categories`);
@@ -35,7 +35,7 @@ export default function ProductPage({ token, handleLogout }) {
                 const data = await response.json();
                 setCategories(data);
                 if (data.length > 0) {
-                    setNewProductCategory(data[0]._id); // Seleccionar la primera por defecto
+                    setNewProductCategory(data[0]._id); 
                 }
             }
         } catch (error) {
@@ -44,12 +44,12 @@ export default function ProductPage({ token, handleLogout }) {
     };
 
 
-    // 3. Cargar Productos (Demostración de POPULATE)
+    
     const fetchProducts = async () => {
         setProductsMessage('Cargando productos...');
         setProducts([]);
         try {
-            // No requiere token porque el endpoint /products es público para la demostración
+           
             const response = await fetch(`${API_BASE_URL}/products`); 
             
             if (!response.ok) throw new Error('Error al obtener productos.');
@@ -64,7 +64,7 @@ export default function ProductPage({ token, handleLogout }) {
     };
 
 
-    // 4. CREAR PRODUCTO (Ruta Protegida - POST /products)
+    
     const handleCreateProduct = async (e) => {
         e.preventDefault();
         setCreationMessage('Creando producto...');
@@ -73,14 +73,14 @@ export default function ProductPage({ token, handleLogout }) {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // CLAVE: Envío del token JWT
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ 
                     nombre: newProductName, 
                     precio: parseFloat(newProductPrice), 
-                    stock: 10, // Valor fijo para la demo
+                    stock: 10, 
                     descripcion: "Descripción de prueba",
-                    categoria: newProductCategory // ID de categoría seleccionada
+                    categoria: newProductCategory 
                 }),
             });
 
@@ -90,7 +90,7 @@ export default function ProductPage({ token, handleLogout }) {
                 setCreationMessage(`Producto "${newProductName}" creado exitosamente.`);
                 setNewProductName('');
                 setNewProductPrice('');
-                fetchProducts(); // Refrescar la lista
+                fetchProducts(); 
             } else {
                 setCreationMessage(`Error al crear: ${data.message || 'Token inválido o datos faltantes.'}`);
             }
@@ -107,7 +107,7 @@ export default function ProductPage({ token, handleLogout }) {
                 <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
             </header>
 
-            {/* --- SECCIÓN DE CREACIÓN DE PRODUCTO (MODERADOR) --- */}
+      
             <section className="card creation-section">
                 <h2>Crear Nuevo Producto </h2>
                 <form onSubmit={handleCreateProduct}>
@@ -126,7 +126,7 @@ export default function ProductPage({ token, handleLogout }) {
                 {creationMessage && <p className="status">{creationMessage}</p>}
             </section>
 
-            {/* --- SECCIÓN DE LISTADO DE PRODUCTOS (POPULATE) --- */}
+          
             <section className="card list-section">
                 <h2>Listado de Productos</h2>
                 {productsMessage && <p className="status">{productsMessage}</p>}
